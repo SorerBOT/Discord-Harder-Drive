@@ -1,5 +1,7 @@
 import fileNameToDiscordFormat from "../../Utils/fileNameToDiscordFormat.js";
 import { Client, GatewayIntentBits } from "discord.js";
+import bufferFromString from "../../Utils/bufferFromString.js";
+import fileFromByteArray from "../../Utils/Files/fileFromByteArray.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -15,7 +17,6 @@ function downloadFile(fileName) {
     		GatewayIntentBits.MessageContent,
         ]
     });
-    //fileFromByteArray(newData, "newFile.jpg");
 
     client.on("ready", async () => {
         const guild = client.guilds.cache.get(GUILD_ID);
@@ -32,16 +33,10 @@ function downloadFile(fileName) {
         const messageStrings = messages.map(([index, message]) => {
             return message.content;
         }).toString();
+        console.log(messageStrings.length);
+        const buffer = bufferFromString(messageStrings);
 
-        console.log(messageStrings);
-
-        //const promises = discordFormat.map(async (message) => {
-        //    await channel.send(message);
-        //});
-
-        //await Promise.all(promises);
-
-        //console.log(`File: ${fileName} has been downloaded.`);
+        fileFromByteArray(buffer, "newFile.jpg");
         client.destroy();
     });
 
