@@ -1,8 +1,8 @@
 import getByteArray from "../../Utils/Files/getByteArray.js";
 import stringToDiscordFormat from "../../Utils/stringToDiscordFormat.js";
 import { Client, GatewayIntentBits } from "discord.js";
+import fileNameToDiscordFormat from "../../Utils/fileNameToDiscordFormat.js";
 import dotenv from "dotenv";
-
 dotenv.config();
 
 const { BOT_TOKEN, GUILD_ID } = process.env;
@@ -28,8 +28,14 @@ function uploadFile(fileName) {
         const guild = client.guilds.cache.get(GUILD_ID);
         const category = guild.channels.cache.get(process.env.CATEGORY_ID);
 
+        const sameNameFiles = guild.channels.cache.find((channel) => channel.name === fileNameToDiscordFormat(fileName));
+        if (sameNameFiles) {
+            console.error(`File: ${fileName} already exists.`);
+            return client.destroy();
+        }
+        
         const channel = await category.children.create({
-            name: fileName.replace('.', '-'),
+            name: fileNameToDiscordFormat(fileName),
         });
 
         const promises = discordFormat.map(async (message) => {
@@ -38,6 +44,7 @@ function uploadFile(fileName) {
 
         await Promise.all(promises);
 
+        console.log(`File: ${fileName} has been uploaded.`);
         client.destroy();
     });
 
