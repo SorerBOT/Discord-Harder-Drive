@@ -2,6 +2,8 @@ import fileNameToDiscordFormat from "../../Utils/fileNameToDiscordFormat.js";
 import { Client, GatewayIntentBits } from "discord.js";
 import bufferFromString from "../../Utils/bufferFromString.js";
 import fileFromByteArray from "../../Utils/Files/fileFromByteArray.js";
+import stringToDiscordFormat from "../../Utils/stringToDiscordFormat.js";
+import getByteArray from "../../Utils/Files/getByteArray.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -28,15 +30,17 @@ function downloadFile(fileName) {
             return client.destroy();
         }
         const messageCollection = await channel.messages.fetch();
-        const messages = Array.from(messageCollection);
+        const messages = Array.from(messageCollection).reverse();
         
         const messageStrings = messages.map(([index, message]) => {
             return message.content;
-        }).toString();
-        console.log(messageStrings.length);
+        }).join('');
+        
         const buffer = bufferFromString(messageStrings);
 
-        fileFromByteArray(buffer, "newFile.jpg");
+        fileFromByteArray(buffer, fileName);
+       
+        console.log(`File: ${fileName} has been downloaded.`);
         client.destroy();
     });
 

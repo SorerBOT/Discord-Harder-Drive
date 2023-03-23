@@ -1,5 +1,5 @@
 function bufferFromString(string) {
-    return Buffer.from(string, "ucs-2");
+    return Buffer.from(string, "hex");
 }
 
 export default bufferFromString;
