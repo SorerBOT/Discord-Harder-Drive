@@ -33,12 +33,12 @@ function downloadFile(fileName) {
         const messages = Array.from(messageCollection).reverse();
         
         const messageStrings = messages.map(([index, message]) => {
-            return message.content;
+            return message.cleanContent;
         }).join('');
         
         const buffer = bufferFromString(messageStrings);
 
-        fileFromByteArray(buffer, fileName);
+        //fileFromByteArray(buffer, fileName);
        
         console.log(`File: ${fileName} has been downloaded.`);
         client.destroy();

@@ -9,10 +9,10 @@
 ##### Upload:
 
 1. The file is converted into a Buffer of Bytes
-2. The Bytes Buffer is converted into a String of Hex values
-3. The String of Hex values is saparated every 2,000 characters
+2. The Bytes Buffer is converted into a String of ucs-2 values
+3. The String of ucs-2 values is saparated every 2,000 characters
 (The maximum length of a Discord Message is 2,000 characters)
-4. A Discord Channel is created for messages storing the hex values to be sent in
+4. A Discord Channel is created for messages storing the ucs-2 values to be sent in
 5. Discord Messages formed and sent from each element of the aforementioned array
 
 <br>
