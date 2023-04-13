@@ -18,9 +18,8 @@ function uploadFile(fileName) {
     });
     
     const data = getByteArray(`./${fileName}`);
-    const stringData = data.toString("latin1");
+    const stringData = data.toString("hex");
     const discordFormat = stringToDiscordFormat(stringData);
-    
     client.on("ready", async () => {
         const guild = client.guilds.cache.get(GUILD_ID);
         const category = guild.channels.cache.get(process.env.CATEGORY_ID);
